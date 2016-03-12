@@ -49,10 +49,11 @@ namespace PotterShoppingCart.Tests
 
             //Act
             //進行結帳動作，產生訂單，並計算結果
-            var actual = target.Checkout(orderInfoList);
+            Order actual = target.Checkout(orderInfoList);
 
             //Assert
-            Assert.AreEqual(expected, actual.Total); //檢查訂單的Total是否為預期結果
+            //檢查訂單的Total是否為預期結果
+            Assert.AreEqual(expected, actual.Total); 
         }
     }
 }
