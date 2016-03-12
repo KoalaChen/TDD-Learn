@@ -26,7 +26,7 @@ namespace PotterShoppingCart.Tests
         //    As a 佛心的出版社老闆
         //I want to 設計一個哈利波特的購物車
 
-        //Scenario: 第一集買了一本，其他都沒買，價格應為100*1=100元
+        //Scenario: 第一集買了一本100元，其他都沒買，價格應為100*1=100元
         [TestMethod]
         public void Checkout_買Book1一本_Price應為100元()
         {

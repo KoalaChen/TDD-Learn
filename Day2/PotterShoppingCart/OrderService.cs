@@ -8,9 +8,17 @@ namespace PotterShoppingCart
         {
         }
 
-        public Order Checkout(OrderDetail[] orderInfoList)
+        public Order Checkout(OrderDetail[] orderDetails)
         {
-            throw new NotImplementedException();
+            Order order = new Order();
+            order.Details = orderDetails;
+            var result = 0;
+            foreach (var item in orderDetails)
+            {
+                result += item.Product.Price * item.Quantity;
+            }
+            order.Total = result;
+            return order;
         }
     }
 }
