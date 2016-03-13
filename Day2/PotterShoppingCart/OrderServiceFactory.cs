@@ -18,7 +18,7 @@ namespace PotterShoppingCart
         {
             var service = new OrderService();
             var rules = new CaculateRuleFactory().Build().ToList();
-            service.Rules = rules;
+            service.CacluateRules = rules;
             return service;
         }
     }
