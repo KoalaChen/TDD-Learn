@@ -19,7 +19,6 @@ namespace PotterShoppingCart
             //訂單
             Order order = new Order();
             order.Details = orderDetails;
-            double result = 0;
             //計算，以產品分組，計算產品數量
             var productQuantities = orderDetails
                 .GroupBy(a => a.Product) //分組
@@ -29,49 +28,32 @@ namespace PotterShoppingCart
                         a.Sum(detail => detail.Quantity) //總計產品數量
                     )
                 );
-
-            IEnumerable<KeyValuePair<Product, int>> remainProductQuantities = productQuantities.ToList();
-            //每次篩選商品數量 > 0的部分，當沒有計算項目時，則停止執行
-            while (remainProductQuantities.Any())
+            //傳遞給規則的相關參數
+            var context = new CalculateRuleContext()
             {
-                //計算
-                remainProductQuantities = remainProductQuantities.Where(a => a.Value > 0).ToList();
+                OrderDetails = orderDetails,
+                RemainProducts = productQuantities.ToList() //剩餘計算的產品項目，剛開始為全部
+            };
+            //每次篩選商品數量 > 0的部分，當沒有計算項目時，則停止執行
+            while (context.RemainProducts.Any())
+            {
+                //篩選剩餘數量>0的商品
+                context.RemainProducts = context.RemainProducts.Where(a => a.Value > 0).ToArray();
 
-                //小記
-                int subTotal = remainProductQuantities.Sum(a => a.Key.Price);
-                
                 //規則越前面優先執行
-                if (remainProductQuantities.Count() >= 5)
-                {
-                    //有5組以上不同商品則折價
-                    result += subTotal * 0.75;
-                }
-                if (remainProductQuantities.Count() == 4)
-                {
-                    //有4組不同商品則折價
-                    result += subTotal * 0.8;
-                }
-                if (remainProductQuantities.Count() == 3)
-                {
-                    //有3組不同商品則折價
-                    result += subTotal * 0.9;
-                }
-                if (remainProductQuantities.Count() == 2)
-                {
-                    //有2組不同商品則折價
-                    result += subTotal * 0.95;
-                }
-                if (remainProductQuantities.Count() == 1)
-                {
-                    //有1組則原價
-                    result += subTotal;
-                }
-                //扣除已計算的商品數量
-                remainProductQuantities = remainProductQuantities
-                    .Select(group => new KeyValuePair<Product, int>(group.Key, group.Value - 1));
+                //有5組以上不同商品則折價，扣除已計算的項目
+                new DifferentItemDiscountRule(reachCount: 5, discountRate: 0.75).Calculate(context);
+                //有4組不同商品則折價，扣除已計算的項目
+                new DifferentItemDiscountRule(reachCount: 4, discountRate: 0.8).Calculate(context);
+                //有3組不同商品則折價，扣除已計算的項目
+                new DifferentItemDiscountRule(reachCount: 3, discountRate: 0.9).Calculate(context);
+                //有2組不同商品則折價，扣除已計算的項目
+                new DifferentItemDiscountRule(reachCount: 2, discountRate: 0.95).Calculate(context);
+                //有1組則原價，扣除已計算的項目
+                new DifferentItemDiscountRule(reachCount: 1, discountRate: 1).Calculate(context);
             }
             //設定計算結果
-            order.Total = result;
+            order.Total = context.Total;
             return order;
         }
     }

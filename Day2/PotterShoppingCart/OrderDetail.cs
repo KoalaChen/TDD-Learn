@@ -13,5 +13,10 @@
         /// 產品訂購數量
         /// </summary>
         public int Quantity { get; set; }
+
+        public override string ToString()
+        {
+            return $"Product={Product} Quantity={Quantity}";
+        }
     }
 }
