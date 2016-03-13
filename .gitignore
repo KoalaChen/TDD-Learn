@@ -212,3 +212,6 @@ _Pvt_Extensions/
 ModelManifest.xml
 /Day1/*.ncrunchsolution
 /Day1/TomShareTests/*.ncrunchproject
+/Day2/PotterShoppingCart.Tests/*.ncrunchproject
+/Day2/*.ncrunchsolution
+/Day2/PotterShoppingCart/*.ncrunchproject
