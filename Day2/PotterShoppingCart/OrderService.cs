@@ -4,73 +4,75 @@ using System.Linq;
 
 namespace PotterShoppingCart
 {
+    /// <summary>
+    /// 訂單服務
+    /// </summary>
     public class OrderService
     {
-        public OrderService()
-        {
-        }
-
-        public Order Checkout(OrderDetail[] orderDetails)
+        /// <summary>
+        /// 結帳並產生訂單
+        /// </summary>
+        /// <param name="orderDetails">選擇的商品及相關資訊</param>
+        /// <returns>訂單</returns>
+        public Order Checkout(IEnumerable<OrderDetail> orderDetails)
         {
             //訂單
             Order order = new Order();
             order.Details = orderDetails;
             double result = 0;
-            //計算，依照Product分組，加總每個Product的數量
-            var productQuantityGroup = orderDetails
-                .GroupBy(a => a.Product) //依照Product分組
+            //計算，以產品分組，計算產品數量
+            var productQuantities = orderDetails
+                .GroupBy(a => a.Product) //分組
                 .Select(a => 
                     new KeyValuePair<Product, int>(
                         a.Key, //每一個產品
-                        a.Select(detail => detail.Quantity) //抽取詳細資料的產品數量
-                        .Aggregate((quantity1, quantity2)  //數量加總
-                            => quantity1+ quantity2))
+                        a.Sum(detail => detail.Quantity) //總計產品數量
+                    )
                 );
 
-            IEnumerable<KeyValuePair<Product, int>> tmpProductQuantityGroup = productQuantityGroup.ToList();
-            //每次篩選商品數量>0的部分
-
-            while (tmpProductQuantityGroup.Any())
+            IEnumerable<KeyValuePair<Product, int>> remainProductQuantities = productQuantities.ToList();
+            //每次篩選商品數量 > 0的部分，當沒有計算項目時，則停止執行
+            while (remainProductQuantities.Any())
             {
-                tmpProductQuantityGroup = tmpProductQuantityGroup.Where(a => a.Value > 0).ToList();
+                //計算
+                remainProductQuantities = remainProductQuantities.Where(a => a.Value > 0).ToList();
 
                 //小記
-                int subTotal;
-                if (tmpProductQuantityGroup.Any())
-                    subTotal = tmpProductQuantityGroup
-                        .Select(a => a.Key.Price)
-                        .Aggregate((price1, price2) => price1 + price2);
-                else
-                    subTotal = 0;
+                int subTotal = remainProductQuantities.Sum(a => a.Key.Price);
+                
                 //規則越前面優先執行
-                if (tmpProductQuantityGroup.Count() >= 5)
+                if (remainProductQuantities.Count() >= 5)
                 {
-                    result += subTotal * 0.75; //計算折價並加總
+                    //有5組以上不同商品則折價
+                    result += subTotal * 0.75;
                 }
-                if (tmpProductQuantityGroup.Count() == 4)
+                if (remainProductQuantities.Count() == 4)
                 {
+                    //有4組不同商品則折價
                     result += subTotal * 0.8;
                 }
-                if (tmpProductQuantityGroup.Count() == 3)
+                if (remainProductQuantities.Count() == 3)
                 {
+                    //有3組不同商品則折價
                     result += subTotal * 0.9;
                 }
-                if (tmpProductQuantityGroup.Count() == 2)
+                if (remainProductQuantities.Count() == 2)
                 {
+                    //有2組不同商品則折價
                     result += subTotal * 0.95;
                 }
-                if (tmpProductQuantityGroup.Count() == 1)
+                if (remainProductQuantities.Count() == 1)
                 {
+                    //有1組則原價
                     result += subTotal;
                 }
                 //扣除已計算的商品數量
-                tmpProductQuantityGroup = tmpProductQuantityGroup
+                remainProductQuantities = remainProductQuantities
                     .Select(group => new KeyValuePair<Product, int>(group.Key, group.Value - 1));
             }
+            //設定計算結果
             order.Total = result;
             return order;
         }
-
-
     }
 }

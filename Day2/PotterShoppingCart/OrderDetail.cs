@@ -1,12 +1,17 @@
 ﻿namespace PotterShoppingCart
 {
+    /// <summary>
+    /// 訂單詳細資料
+    /// </summary>
     public class OrderDetail
     {
-        public OrderDetail()
-        {
-        }
-
+        /// <summary>
+        /// 關聯的產品
+        /// </summary>
         public Product Product { get; set; }
+        /// <summary>
+        /// 產品訂購數量
+        /// </summary>
         public int Quantity { get; set; }
     }
 }
