@@ -27,9 +27,13 @@ namespace PotterShoppingCart
             {
                 result = result * 0.9;
             }
-            if (groupResult.Count() >= 4)
+            if (groupResult.Count() == 4)
             {
                 result = result * 0.8;
+            }
+            if(groupResult.Count() >= 5)
+            {
+                result = result * 0.75;
             }
             order.Total = result;
             return order;

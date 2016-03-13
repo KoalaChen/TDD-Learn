@@ -210,7 +210,7 @@ namespace PotterShoppingCart.Tests
         public void Checkout_買Book1一本和Book2一本和Book3一本和Book4一本和Book5一本_Price應為375元()
         {
             //Arrange
-            var book1 = new Product() //產品
+            var book1 = new Product()
             {
                 Name = "哈利波特第一集",
                 Price = 100
@@ -235,8 +235,8 @@ namespace PotterShoppingCart.Tests
                 Name = "哈利波特第五集",
                 Price = 100
             };
-            var orderInfoList = new OrderDetail[] { //訂單細項
-                new OrderDetail()
+            var orderInfoList = new OrderDetail[] {
+                new OrderDetail() //訂單細項
                 {
                     Product = book1,
                     Quantity = 1
