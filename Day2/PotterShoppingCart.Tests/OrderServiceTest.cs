@@ -204,5 +204,75 @@ namespace PotterShoppingCart.Tests
             //檢查訂單的Total是否為預期結果
             Assert.AreEqual(expected, actual.Total);
         }
+
+        //Scenario: 一次買了整套，一二三四五集各買了一本，價格應為100*5*0.75=375
+        [TestMethod]
+        public void Checkout_買Book1一本和Book2一本和Book3一本和Book4一本和Book5一本_Price應為375元()
+        {
+            //Arrange
+            var book1 = new Product() //產品
+            {
+                Name = "哈利波特第一集",
+                Price = 100
+            };
+            var book2 = new Product()
+            {
+                Name = "哈利波特第二集",
+                Price = 100
+            };
+            var book3 = new Product()
+            {
+                Name = "哈利波特第三集",
+                Price = 100
+            };
+            var book4 = new Product()
+            {
+                Name = "哈利波特第四集",
+                Price = 100
+            };
+            var book5 = new Product()
+            {
+                Name = "哈利波特第五集",
+                Price = 100
+            };
+            var orderInfoList = new OrderDetail[] { //訂單細項
+                new OrderDetail()
+                {
+                    Product = book1,
+                    Quantity = 1
+                },
+                new OrderDetail()
+                {
+                    Product = book2,
+                    Quantity = 1
+                },
+                new OrderDetail()
+                {
+                    Product = book3,
+                    Quantity = 1
+                },
+                new OrderDetail()
+                {
+                    Product = book4,
+                    Quantity = 1
+                },
+                new OrderDetail()
+                {
+                    Product = book5,
+                    Quantity = 1
+                }
+            };
+
+            var target = new OrderService(); //訂單計算服務
+            var expected = 375; //預期結果
+
+            //Act
+            //進行結帳動作，產生訂單，並計算結果
+            Order actual = target.Checkout(orderInfoList);
+
+            //Assert
+            //檢查訂單的Total是否為預期結果
+            Assert.AreEqual(expected, actual.Total);
+        }
     }
 }
