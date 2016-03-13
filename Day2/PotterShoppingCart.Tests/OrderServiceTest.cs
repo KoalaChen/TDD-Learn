@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace PotterShoppingCart.Tests
 {
@@ -16,8 +15,6 @@ namespace PotterShoppingCart.Tests
     //   那麼那三本將享有10%的折扣，但重複的那一本，則仍須100元。
     // 你的任務是，設計一個哈利波特的購物車，能提供最便宜的價格給這些爸爸媽媽。
 
-
-
     [TestClass]
     public class OrderServiceTest
     {
@@ -31,21 +28,12 @@ namespace PotterShoppingCart.Tests
         public void Checkout_買Book1一本_Price應為100元()
         {
             //Arrange
-            var book1 = new Product() //Book1產品內容
-            {
-                Name = "哈利波特第一集",
-                Price = 100
-            };
+            var book1 = new Product() { Name = "哈利波特第一集", Price = 100 };
             var orderInfoList = new OrderDetail[] {
-                new OrderDetail() //訂單細項，買Book1 1本
-                {
-                    Product = book1, //購買Book1
-                    Quantity = 1 //購買數量
-                }
+                new OrderDetail() { Product = book1, Quantity = 1 }
             };
-
-            var target = new OrderService(); //訂單計算服務
-            var expected = 100; //預期結果為100元
+            var target = new OrderService();
+            var expected = 100;
 
             //Act
             //進行結帳動作，產生訂單，並計算結果
@@ -53,38 +41,23 @@ namespace PotterShoppingCart.Tests
 
             //Assert
             //檢查訂單的Total是否為預期結果
-            Assert.AreEqual(expected, actual.Total); 
+            Assert.AreEqual(expected, actual.Total);
         }
+
         //Scenario: 第一集買了一本，第二集也買了一本，價格應為100*2*0.95=190
         [TestMethod]
         public void Checkout_買Book1一本和Book2一本_Price應為190元()
         {
             //Arrange
-            var book1 = new Product() //Book1產品內容
-            {
-                Name = "哈利波特第一集",
-                Price = 100
-            };
-            var book2 = new Product() //Book2產品內容
-            {
-                Name = "哈利波特第二集",
-                Price = 100
-            };
+            var book1 = new Product() { Name = "哈利波特第一集", Price = 100 };
+            var book2 = new Product() { Name = "哈利波特第二集", Price = 100 };
             var orderInfoList = new OrderDetail[] {
-                new OrderDetail() //訂單細項，買Book1 1本
-                {
-                    Product = book1, //購買Book1
-                    Quantity = 1 //購買數量
-                },
-                new OrderDetail()
-                {
-                    Product = book2, //購買Book2
-                    Quantity = 1 //購買數量
-                }
+                new OrderDetail() { Product = book1, Quantity = 1 },
+                new OrderDetail() { Product = book2, Quantity = 1 }
             };
 
-            var target = new OrderService(); //訂單計算服務
-            var expected = 190; //預期結果為190元
+            var target = new OrderService();
+            var expected = 190;
 
             //Act
             //進行結帳動作，產生訂單，並計算結果
@@ -100,41 +73,17 @@ namespace PotterShoppingCart.Tests
         public void Checkout_買Book1一本和Book2一本和Book3一本_Price應為270元()
         {
             //Arrange
-            var book1 = new Product() //Book1產品內容
-            {
-                Name = "哈利波特第一集",
-                Price = 100
-            };
-            var book2 = new Product() //Book2產品內容
-            {
-                Name = "哈利波特第二集",
-                Price = 100
-            };
-            var book3 = new Product() //Book3產品內容
-            {
-                Name = "哈利波特第三集",
-                Price = 100
-            };
+            var book1 = new Product() { Name = "哈利波特第一集", Price = 100 };
+            var book2 = new Product() { Name = "哈利波特第二集", Price = 100 };
+            var book3 = new Product() { Name = "哈利波特第三集", Price = 100 };
             var orderInfoList = new OrderDetail[] {
-                new OrderDetail() //訂單細項，買Book1 1本
-                {
-                    Product = book1, //購買Book1
-                    Quantity = 1 //購買數量
-                },
-                new OrderDetail()
-                {
-                    Product = book2, //購買Book2
-                    Quantity = 1 //購買數量
-                },
-                new OrderDetail()
-                {
-                    Product = book3, //購買Book3
-                    Quantity = 1 //購買數量
-                }
+                new OrderDetail() { Product = book1, Quantity = 1 },
+                new OrderDetail() { Product = book2, Quantity = 1 },
+                new OrderDetail() { Product = book3, Quantity = 1 }
             };
 
-            var target = new OrderService(); //訂單計算服務
-            var expected = 270; //預期結果
+            var target = new OrderService();
+            var expected = 270;
 
             //Act
             //進行結帳動作，產生訂單，並計算結果
@@ -150,51 +99,19 @@ namespace PotterShoppingCart.Tests
         public void Checkout_買Book1一本和Book2一本和Book3一本和Book4一本_Price應為320元()
         {
             //Arrange
-            var book1 = new Product() //Book1產品內容
-            {
-                Name = "哈利波特第一集",
-                Price = 100
-            };
-            var book2 = new Product() //Book2產品內容
-            {
-                Name = "哈利波特第二集",
-                Price = 100
-            };
-            var book3 = new Product() //Book3產品內容
-            {
-                Name = "哈利波特第三集",
-                Price = 100
-            };
-            var book4 = new Product() //Book4產品內容
-            {
-                Name = "哈利波特第四集",
-                Price = 100
-            };
+            var book1 = new Product() { Name = "哈利波特第一集", Price = 100 };
+            var book2 = new Product() { Name = "哈利波特第二集", Price = 100 };
+            var book3 = new Product() { Name = "哈利波特第三集", Price = 100 };
+            var book4 = new Product() { Name = "哈利波特第四集", Price = 100 };
             var orderInfoList = new OrderDetail[] {
-                new OrderDetail() //訂單細項，買Book1 1本
-                {
-                    Product = book1, //購買Book1
-                    Quantity = 1 //購買數量
-                },
-                new OrderDetail()
-                {
-                    Product = book2, //購買Book2
-                    Quantity = 1 //購買數量
-                },
-                new OrderDetail()
-                {
-                    Product = book3, //購買Book3
-                    Quantity = 1 //購買數量
-                },
-                new OrderDetail()
-                {
-                    Product = book4, //購買Book4
-                    Quantity = 1 //購買數量
-                },
+                new OrderDetail() { Product = book1, Quantity = 1 },
+                new OrderDetail() { Product = book2, Quantity = 1 },
+                new OrderDetail() { Product = book3, Quantity = 1 },
+                new OrderDetail() { Product = book4, Quantity = 1 }
             };
 
-            var target = new OrderService(); //訂單計算服務
-            var expected = 320; //預期結果
+            var target = new OrderService();
+            var expected = 320;
 
             //Act
             //進行結帳動作，產生訂單，並計算結果
@@ -210,61 +127,21 @@ namespace PotterShoppingCart.Tests
         public void Checkout_買Book1一本和Book2一本和Book3一本和Book4一本和Book5一本_Price應為375元()
         {
             //Arrange
-            var book1 = new Product()
-            {
-                Name = "哈利波特第一集",
-                Price = 100
-            };
-            var book2 = new Product()
-            {
-                Name = "哈利波特第二集",
-                Price = 100
-            };
-            var book3 = new Product()
-            {
-                Name = "哈利波特第三集",
-                Price = 100
-            };
-            var book4 = new Product()
-            {
-                Name = "哈利波特第四集",
-                Price = 100
-            };
-            var book5 = new Product()
-            {
-                Name = "哈利波特第五集",
-                Price = 100
-            };
+            var book1 = new Product() { Name = "哈利波特第一集", Price = 100 };
+            var book2 = new Product() { Name = "哈利波特第二集", Price = 100 };
+            var book3 = new Product() { Name = "哈利波特第三集", Price = 100 };
+            var book4 = new Product() { Name = "哈利波特第四集", Price = 100 };
+            var book5 = new Product() { Name = "哈利波特第五集", Price = 100 };
             var orderInfoList = new OrderDetail[] {
-                new OrderDetail() //訂單細項
-                {
-                    Product = book1,
-                    Quantity = 1
-                },
-                new OrderDetail()
-                {
-                    Product = book2,
-                    Quantity = 1
-                },
-                new OrderDetail()
-                {
-                    Product = book3,
-                    Quantity = 1
-                },
-                new OrderDetail()
-                {
-                    Product = book4,
-                    Quantity = 1
-                },
-                new OrderDetail()
-                {
-                    Product = book5,
-                    Quantity = 1
-                }
+                new OrderDetail() { Product = book1, Quantity = 1 },
+                new OrderDetail() { Product = book2, Quantity = 1 },
+                new OrderDetail() { Product = book3, Quantity = 1 },
+                new OrderDetail() { Product = book4, Quantity = 1 },
+                new OrderDetail() { Product = book5, Quantity = 1 }
             };
 
-            var target = new OrderService(); //訂單計算服務
-            var expected = 375; //預期結果
+            var target = new OrderService();
+            var expected = 375;
 
             //Act
             //進行結帳動作，產生訂單，並計算結果
@@ -280,41 +157,17 @@ namespace PotterShoppingCart.Tests
         public void Checkout_買Book1一本和Book2一本和Book3二本_Price應為370元()
         {
             //Arrange
-            var book1 = new Product()
-            {
-                Name = "哈利波特第一集",
-                Price = 100
-            };
-            var book2 = new Product()
-            {
-                Name = "哈利波特第二集",
-                Price = 100
-            };
-            var book3 = new Product()
-            {
-                Name = "哈利波特第三集",
-                Price = 100
-            };
+            var book1 = new Product() { Name = "哈利波特第一集", Price = 100 };
+            var book2 = new Product() { Name = "哈利波特第二集", Price = 100 };
+            var book3 = new Product() { Name = "哈利波特第三集", Price = 100 };
             var orderInfoList = new OrderDetail[] {
-                new OrderDetail() //訂單細項
-                {
-                    Product = book1,
-                    Quantity = 1
-                },
-                new OrderDetail()
-                {
-                    Product = book2,
-                    Quantity = 1
-                },
-                new OrderDetail()
-                {
-                    Product = book3,
-                    Quantity = 2
-                }
+                new OrderDetail() { Product = book1, Quantity = 1 },
+                new OrderDetail() { Product = book2, Quantity = 1 },
+                new OrderDetail() { Product = book3, Quantity = 2 }
             };
 
-            var target = new OrderService(); //訂單計算服務
-            var expected = 370; //預期結果
+            var target = new OrderService();
+            var expected = 370;
 
             //Act
             //進行結帳動作，產生訂單，並計算結果
@@ -330,41 +183,17 @@ namespace PotterShoppingCart.Tests
         public void Checkout_買Book1一本和Book2二本和Book3二本_Price應為460元()
         {
             //Arrange
-            var book1 = new Product()
-            {
-                Name = "哈利波特第一集",
-                Price = 100
-            };
-            var book2 = new Product()
-            {
-                Name = "哈利波特第二集",
-                Price = 100
-            };
-            var book3 = new Product()
-            {
-                Name = "哈利波特第三集",
-                Price = 100
-            };
+            var book1 = new Product() { Name = "哈利波特第一集", Price = 100 };
+            var book2 = new Product() { Name = "哈利波特第二集", Price = 100 };
+            var book3 = new Product() { Name = "哈利波特第三集", Price = 100 };
             var orderInfoList = new OrderDetail[] {
-                new OrderDetail() //訂單細項
-                {
-                    Product = book1,
-                    Quantity = 1
-                },
-                new OrderDetail()
-                {
-                    Product = book2,
-                    Quantity = 2
-                },
-                new OrderDetail()
-                {
-                    Product = book3,
-                    Quantity = 2
-                }
+                new OrderDetail() { Product = book1, Quantity = 1 },
+                new OrderDetail() { Product = book2, Quantity = 2 },
+                new OrderDetail() { Product = book3, Quantity = 2 }
             };
 
-            var target = new OrderService(); //訂單計算服務
-            var expected = 460; //預期結果
+            var target = new OrderService();
+            var expected = 460;
 
             //Act
             //進行結帳動作，產生訂單，並計算結果
@@ -375,5 +204,4 @@ namespace PotterShoppingCart.Tests
             Assert.AreEqual(expected, actual.Total);
         }
     }
-
 }
