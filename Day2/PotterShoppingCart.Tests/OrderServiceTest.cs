@@ -134,7 +134,67 @@ namespace PotterShoppingCart.Tests
             };
 
             var target = new OrderService(); //訂單計算服務
-            var expected = 270; //預期結果為190元
+            var expected = 270; //預期結果
+
+            //Act
+            //進行結帳動作，產生訂單，並計算結果
+            Order actual = target.Checkout(orderInfoList);
+
+            //Assert
+            //檢查訂單的Total是否為預期結果
+            Assert.AreEqual(expected, actual.Total);
+        }
+
+        //Scenario: 一二三四集各買了一本，價格應為100*4*0.8=320
+        [TestMethod]
+        public void Checkout_買Book1一本和Book2一本和Book3一本和Book4一本_Price應為320元()
+        {
+            //Arrange
+            var book1 = new Product() //Book1產品內容
+            {
+                Name = "哈利波特第一集",
+                Price = 100
+            };
+            var book2 = new Product() //Book2產品內容
+            {
+                Name = "哈利波特第二集",
+                Price = 100
+            };
+            var book3 = new Product() //Book3產品內容
+            {
+                Name = "哈利波特第三集",
+                Price = 100
+            };
+            var book4 = new Product() //Book4產品內容
+            {
+                Name = "哈利波特第四集",
+                Price = 100
+            };
+            var orderInfoList = new OrderDetail[] {
+                new OrderDetail() //訂單細項，買Book1 1本
+                {
+                    Product = book1, //購買Book1
+                    Quantity = 1 //購買數量
+                },
+                new OrderDetail()
+                {
+                    Product = book2, //購買Book2
+                    Quantity = 1 //購買數量
+                },
+                new OrderDetail()
+                {
+                    Product = book3, //購買Book3
+                    Quantity = 1 //購買數量
+                },
+                new OrderDetail()
+                {
+                    Product = book4, //購買Book4
+                    Quantity = 1 //購買數量
+                },
+            };
+
+            var target = new OrderService(); //訂單計算服務
+            var expected = 320; //預期結果
 
             //Act
             //進行結帳動作，產生訂單，並計算結果
