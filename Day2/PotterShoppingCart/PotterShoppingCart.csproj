@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CaculateRuleFactory.cs" />
     <Compile Include="CalculateRuleContext.cs" />
     <Compile Include="DifferentItemDiscountRule.cs" />
     <Compile Include="ICalculateRule.cs" />

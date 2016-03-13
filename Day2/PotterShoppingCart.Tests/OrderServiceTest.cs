@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace PotterShoppingCart.Tests
 {
@@ -18,6 +20,7 @@ namespace PotterShoppingCart.Tests
     [TestClass]
     public class OrderServiceTest
     {
+
         //Feature: PotterShoppingCart
         //    In order to 提供最便宜的價格給來買書的爸爸媽媽
         //    As a 佛心的出版社老闆
@@ -32,7 +35,7 @@ namespace PotterShoppingCart.Tests
             var orderInfoList = new OrderDetail[] {
                 new OrderDetail() { Product = book1, Quantity = 1 }
             };
-            var target = new OrderService();
+            var target = new OrderServiceFactory().Build();
             var expected = 100;
 
             //Act
@@ -56,7 +59,7 @@ namespace PotterShoppingCart.Tests
                 new OrderDetail() { Product = book2, Quantity = 1 }
             };
 
-            var target = new OrderService();
+            var target = new OrderServiceFactory().Build();
             var expected = 190;
 
             //Act
@@ -82,7 +85,7 @@ namespace PotterShoppingCart.Tests
                 new OrderDetail() { Product = book3, Quantity = 1 }
             };
 
-            var target = new OrderService();
+            var target = new OrderServiceFactory().Build();
             var expected = 270;
 
             //Act
@@ -110,7 +113,7 @@ namespace PotterShoppingCart.Tests
                 new OrderDetail() { Product = book4, Quantity = 1 }
             };
 
-            var target = new OrderService();
+            var target = new OrderServiceFactory().Build();
             var expected = 320;
 
             //Act
@@ -140,7 +143,7 @@ namespace PotterShoppingCart.Tests
                 new OrderDetail() { Product = book5, Quantity = 1 }
             };
 
-            var target = new OrderService();
+            var target = new OrderServiceFactory().Build();
             var expected = 375;
 
             //Act
@@ -166,7 +169,7 @@ namespace PotterShoppingCart.Tests
                 new OrderDetail() { Product = book3, Quantity = 2 }
             };
 
-            var target = new OrderService();
+            var target = new OrderServiceFactory().Build();
             var expected = 370;
 
             //Act
@@ -192,7 +195,7 @@ namespace PotterShoppingCart.Tests
                 new OrderDetail() { Product = book3, Quantity = 2 }
             };
 
-            var target = new OrderService();
+            var target = new OrderServiceFactory().Build();
             var expected = 460;
 
             //Act
