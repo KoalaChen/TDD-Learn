@@ -14,7 +14,24 @@ namespace PotterShoppingCart
         /// 計算規則列表
         /// </summary>
         public IList<ICalculateRule> CacluateRules { get; set; } = new List<ICalculateRule>();
-
+        /// <summary>
+        /// 根據選擇的產品建立訂單
+        /// </summary>
+        /// <param name="orderDetails">訂單詳細資訊</param>
+        /// <param name="total">總價</param>
+        /// <returns></returns>
+        protected Order CreateOrder(IEnumerable<OrderDetail> orderDetails, double total = 0)
+        {
+            if (orderDetails == null)
+                throw new ArgumentNullException(nameof(orderDetails));
+            //建立訂單
+            var order = new Order()
+            {
+                Details = orderDetails,
+                Total = total
+            };
+            return order;
+        }
         /// <summary>
         /// 結帳並產生訂單
         /// </summary>
@@ -22,12 +39,21 @@ namespace PotterShoppingCart
         /// <returns>訂單</returns>
         public Order Checkout(IEnumerable<OrderDetail> orderDetails)
         {
-            if (orderDetails == null)
-                throw new ArgumentNullException(nameof(orderDetails));
-            if (!orderDetails.Any())
-                throw new ArgumentException($"{nameof(orderDetails)}無任何詳細訂單資訊");
-            if (orderDetails.Any(detail => detail == null))
-                throw new ArgumentException($"{nameof(orderDetails)}有一或多個項目為null");
+            //驗證來源是否正確
+            ValidateOrderDetail(orderDetails);
+            //計算總價
+            var total = CalculateTotal(orderDetails);
+            //建立訂單並設定相關價格資訊
+            return CreateOrder(orderDetails: orderDetails, total: total);
+        }
+        /// <summary>
+        /// 計算金額
+        /// </summary>
+        /// <param name="orderDetails">詳細訂單資訊</param>
+        /// <returns></returns>
+        public double CalculateTotal(IEnumerable<OrderDetail> orderDetails)
+        {
+            ValidateOrderDetail(orderDetails);
 
             //計算，以產品分組，計算產品數量
             var productQuantities = CalculateQuantityByProduct(orderDetails);
@@ -35,18 +61,26 @@ namespace PotterShoppingCart
             var context = CreateRuleContext(orderDetails, productQuantities);
             //執行規則
             ExecuteRule(context);
-            //建立訂單並設定總價
-            var order = new Order()
-            {
-                Details = orderDetails,
-                Total = context.Total
-            };
-            return order;
+            return context.Total;
+        }
+        /// <summary>
+        /// 訂單細項是否符合要求
+        /// </summary>
+        /// <param name="orderDetails">訂單細項</param>
+        private void ValidateOrderDetail(IEnumerable<OrderDetail> orderDetails)
+        {
+            if (orderDetails == null)
+                throw new ArgumentNullException(nameof(orderDetails));
+            if (!orderDetails.Any())
+                throw new ArgumentException($"{nameof(orderDetails)}無任何詳細訂單資訊");
+            if (orderDetails.Any(detail => detail == null))
+                throw new ArgumentException($"{nameof(orderDetails)}有一或多個項目為null");
         }
         /// <summary>
         /// 以產品為群組，計算產品的相關數量
         /// </summary>
-        protected virtual IEnumerable<KeyValuePair<Product, int>> CalculateQuantityByProduct(IEnumerable<OrderDetail> orderDetails) {
+        protected virtual IEnumerable<KeyValuePair<Product, int>> CalculateQuantityByProduct(
+            IEnumerable<OrderDetail> orderDetails) {
             if(orderDetails == null)
                 throw new ArgumentNullException(nameof(orderDetails));
             //計算，以產品分組，計算產品數量

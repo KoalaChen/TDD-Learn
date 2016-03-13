@@ -33,7 +33,10 @@ namespace PotterShoppingCart
             this._reachCount = reachCount;
             this._discountRate = discountRate;
         }
-
+        /// <summary>
+        /// 計算
+        /// </summary>
+        /// <param name="context">計算價格傳入參數</param>
         public void Calculate(CalculateRuleContext context)
         {
             //篩選剩餘數量>0的商品
